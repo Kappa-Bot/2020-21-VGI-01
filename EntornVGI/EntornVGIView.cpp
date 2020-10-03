@@ -197,6 +197,8 @@ BEGIN_MESSAGE_MAP(CEntornVGIView, CView)
 		ON_UPDATE_COMMAND_UI(ID_OBJECTE_ARC, &CEntornVGIView::OnUpdateObjecteArc)
 		ON_COMMAND(ID_PROJECCIO_ORTOGRAFICA, &CEntornVGIView::OnProjeccioOrtografica)
 		ON_UPDATE_COMMAND_UI(ID_PROJECCIO_ORTOGRAFICA, &CEntornVGIView::OnUpdateProjeccioOrtografica)
+		ON_COMMAND(ID_PROJECCIO_AXONOMETRICA, &CEntornVGIView::OnProjeccioAxonometrica)
+		ON_UPDATE_COMMAND_UI(ID_PROJECCIO_AXONOMETRICA, &CEntornVGIView::OnUpdateProjeccioAxonometrica)
 		END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -771,11 +773,37 @@ void CEntornVGIView::OnPaint()
 		glEnable(GL_SCISSOR_TEST);
 
 // Retall
-		glScissor(0, 0, w, h);
-		glViewport(0, 0, w, h);
+//		glScissor(0, 0, w, h);
+//		glViewport(0, 0, w, h);
 
 // Aquí farem les crides per a definir Viewport, Projecció i Càmara: INICI -------------------------
 
+// TODO: Cam Esférica, altres projeccions axonomètriques????????????????????????????????????????????
+
+// ISOMÈTRICA (Superior Esquerra)
+		// Definició de Viewport, Projecció i Càmara
+		glScissor(0, 0, w, h);
+		glViewport(0, 0, w, h);
+		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R);
+		//Vista_Ortografica(3, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
+		//	test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
+		//	eixos, grid, hgrid);
+		n[0] = 0;		n[1] = 0;		n[2] = 0;
+		Vista_Esferica(OPV, Vis_Polar, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, mida, pas,
+			front_faces, oculta, test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides, eixos, grid, hgrid);
+		// Dibuix de l'Objecte o l'Escena
+		glPushMatrix();
+		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
+		// glScalef();			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
+		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
+		glPopMatrix();
+		/*
+// DIMÈTRICA (Superior Dreta)
+		glScissor(w / 2, h / 2, w / 2, h / 2);
+		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R);
+		Vista_Ortografica(4, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
+			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
+			eixos, grid, hgrid);
 // Aquí farem les cridesper a definir Viewport, Projecció i Càmara:: FI -------------------------
 		// Dibuixar Model (escena)
 		glPushMatrix();
@@ -784,6 +812,20 @@ void CEntornVGIView::OnPaint()
 			dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
 		glPopMatrix();
 
+// TRIMÈTRICA (Inferior Esquerra)
+		glScissor(0, 0, w / 2, h / 2);
+		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R);
+		Vista_Ortografica(5, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
+			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
+			eixos, grid, hgrid);
+		// Aquí farem les cridesper a definir Viewport, Projecció i Càmara:: FI -------------------------
+				// Dibuixar Model (escena)
+		glPushMatrix();
+		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
+		// glScalef();			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques
+		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
+		glPopMatrix();
+		*/
 // Intercanvia l'escena al front de la pantalla
 		SwapBuffers(m_pDC->GetSafeHdc());
 		break;
@@ -808,8 +850,9 @@ void CEntornVGIView::OnPaint()
 // ---------- Entorn VGI: DESCOMENTAR QUAN S'IMPLEMENTI PROJECCIO ORTOGRÀFICA
 // PLANTA (Inferior Esquerra)
 		// Definició de Viewport, Projecció i Càmara
-		glScissor(0, 0, w / 4, h / 4);
-		Projeccio_Orto(0, w / 4, 0, h / 4, 1, OPV.R);
+		glScissor(0, 0, w / 2, h / 2);
+		glViewport(0, 0, w / 2, h / 2);
+		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R);
 		Vista_Ortografica(0, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
@@ -819,11 +862,12 @@ void CEntornVGIView::OnPaint()
 			// glScalef();			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
 			dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
 		glPopMatrix();
-
+		
 // ISOMÈTRICA (Inferior Dreta)
 		// Definició de Viewport, Projecció i Càmara
-		glScissor(w / 4, 0, w / 2, h / 4);
-		Projeccio_Orto(w / 4, w / 2, 0, h / 4, 1, OPV.R);
+		glScissor(w / 2, 0, w / 2, h / 2);
+		glViewport(w / 2, 0, w / 2, h / 2);
+		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R);
 		Vista_Ortografica(3, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
@@ -836,8 +880,9 @@ void CEntornVGIView::OnPaint()
 
 // ALÇAT (Superior Esquerra)
 		// Definició de Viewport, Projecció i Càmara
-		glScissor(0, h / 4, w / 4, h / 2);
-		Projeccio_Orto(0, w / 4, h / 4, h / 2, 1, OPV.R);
+		glScissor(0, h / 2, w / 2, h / 2);
+		glViewport(0, h / 2, w / 2, h / 2);
+		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R);
 		Vista_Ortografica(1, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
@@ -850,8 +895,9 @@ void CEntornVGIView::OnPaint()
 
 // PERFIL (Superior Dreta)
 		// Definició de Viewport, Projecció i Càmara
-		glScissor(w / 4, h / 4, w / 2, h / 2);
-		Projeccio_Orto(w / 4, w / 2, h / 4, h / 2, 1, OPV.R);
+		glScissor(w / 2, h / 2, w / 2, h / 2);
+		glViewport(w / 2, h / 2, w / 2, h / 2);
+		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R);
 		Vista_Ortografica(2, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
@@ -888,7 +934,7 @@ void CEntornVGIView::OnPaint()
 			configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes.
 			dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
 		glPopMatrix();
-
+		
 // Intercanvia l'escena al front de la pantalla
 		SwapBuffers(m_pDC->GetSafeHdc());
 		break;
@@ -3063,10 +3109,27 @@ void CEntornVGIView::OnProjeccioOrtografica()
 	InvalidateRect(NULL, false);
 }
 
-
 void CEntornVGIView::OnUpdateProjeccioOrtografica(CCmdUI* pCmdUI)
 {
 	if (projeccio == ORTO) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+}
+
+void CEntornVGIView::OnProjeccioAxonometrica()
+{
+	projeccio = AXONOM;
+	eixos = true;
+	mobil = true;
+	zzoom = true;
+
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+}
+
+
+void CEntornVGIView::OnUpdateProjeccioAxonometrica(CCmdUI* pCmdUI)
+{
+	if (projeccio == AXONOM) pCmdUI->SetCheck(1);
 	else pCmdUI->SetCheck(0);
 }
 

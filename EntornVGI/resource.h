@@ -194,13 +194,15 @@
 #define ID_OBJECTE_ARC                  32868
 #define ID_PROJECCI32869                32869
 #define ID_PROJECCIO_ORTOGRAFICA        32870
+#define ID_PROJECCI32871                32871
+#define ID_PROJECCIO_AXONOMETRICA       32872
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        311
-#define _APS_NEXT_COMMAND_VALUE         32871
+#define _APS_NEXT_COMMAND_VALUE         32873
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

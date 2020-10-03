@@ -297,14 +297,9 @@ void Iluminacio(char ilumin, bool ifix, bool ilu2sides, bool ll_amb, LLUM* lumin
 void Projeccio_Orto(double left, double right, double bottom, double top, double znear, double zfar)
 //(int minx, int miny, GLsizei w, GLsizei h, double zf)
 {
-	// ---- Entorn VGI: ATENCIÓ!!. ESPECIFICACIO DELS PARÀMETRES DE PROJECCIÓ ORTOGRÀFICA
-	//			        QUE ES CARREGUEN A LA MATRIU DE PROJECCIÓ GL_PROJECTION
-
-	// Definició Viewport
-	glViewport(left, bottom, right, top);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-15, 15, -15, 15, -1, 15);
+	glOrtho(left, right, bottom, top, znear, zfar);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
@@ -317,34 +312,42 @@ void Vista_Ortografica(int prj,GLdouble Raux,CColor col_fons,CColor col_object,c
 				bool eix, CMask3D reixa, CPunt3D hreixa)
 {
 
-	// Neteja dels buffers de color i profunditat
 	Fons(col_fons);
-
-	// Iluminacio movent-se amb la camara (abans glLookAt)
 	if (!ifix) Iluminacio(iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step);
 
 	switch (prj) { 
-	case 0:
-		gluLookAt(0.0f, 0.0f, 15.0f, 
-				0.0f, 0.0f, -1.0f, 
-				0.0f, -1.0f, 0.0f);
-		break; 
-	case 1:	
-		gluLookAt(0.0f, 15.0f, 0.0f, 
-				0.0f, -1.0f, 0.0f, 
+		case 0: // PLANTA (Inferior Esquerra)
+			gluLookAt(0.0f, 0.0f, 15.0f, 
+					0.0f, 0.0f, -1.0f, 
+					0.0f, -1.0f, 0.0f);
+			break; 
+		case 1: // ALÇAT (Superior Esquerra)
+			gluLookAt(0.0f, 15.0f, 0.0f, 
+					0.0f, -1.0f, 0.0f, 
+					0.0f, 0.0f, 1.0f);
+			break;
+		case 2: //PERFIL (Superior Dreta)
+			gluLookAt(15.0f, 0.0f, 0.0f,
+				-1.0f, 0.0f, 0.0f,
 				0.0f, 0.0f, 1.0f);
-		break;
-	case 2: 
-		gluLookAt(5.0f, 5.0f, 5.0f, 
-				0.0f, 0.0f, 0.0f, 
-				-1.0f, -1.0f, 1.0f);
-		break;
-	case 3:
-		gluLookAt(15.0f, 0.0f, 0.0f, 
-				-1.0f, 0.0f, 0.0f, 
+			break;
+		case 3: // ISOMÈTRICA (Inferior Dreta | Superior Esquerra)
+			gluLookAt(8.33f * sqrtf(1.0f / 3.0f), 8.33f * sqrtf(1.0f / 3.0f), 8.33f * sqrt(1.0f / 3.0f),
+				0.0f, 0.0f, 0.0f,
 				0.0f, 0.0f, 1.0f);
-		break;
+			break;
+		case 4: // DIMÈTRICA (Superior Dreta)
+			gluLookAt(8.33f * sqrtf(1.0f / 3.0f), 8.33f * sqrtf(1.0f / 3.0f), 8.33f * sqrt(1.0f / 3.0f),
+				0.0f, 0.0f, 0.0f,
+				0.0f, 0.0f, 1.0f);
+			break;
+		case 5: // TRIMÈTRICA (Inferior Esquerra)
+			gluLookAt(8.33f * sqrtf(1.0f / 3.0f), 8.33f * sqrtf(1.0f / 3.0f), 8.33f * sqrt(1.0f / 3.0f),
+				0.0f, 0.0f, 0.0f,
+				0.0f, 0.0f, 1.0f);
+			break;
 	}
+
 	// Iluminacio fixe respecte la camara (després glLookAt)
 	if (ifix) Iluminacio(iluminacio, ifix, il2sides, llum_amb, lumi, objecte, frnt_fcs, bck_ln, step);
 
