@@ -8,6 +8,6 @@
 
 ### Issues
 1. Edgard:
-    - [ ] Fix oversizing of viewports
-    - [ ] Set full-size viewports and scissors back
     - [X] Stop being dumb
+    - [ ] End implementation of AXON projection
+    - [ ] \(Optional) Isonometric, Dimetric, Trimetric?
