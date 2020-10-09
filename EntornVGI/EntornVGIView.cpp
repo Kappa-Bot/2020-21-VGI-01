@@ -783,14 +783,19 @@ void CEntornVGIView::OnPaint()
 // ISOMÈTRICA (Superior Esquerra)
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(0, 0, w, h);
-		glViewport(0, 0, w, h);
-		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R,w,h);
-		//Vista_Ortografica(3, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
-		//	test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
-		//	eixos, grid, hgrid);
+		//glViewport(0, 0, w, h);
+	    //Jhoan 9/10/20:he cambiado OPV.R por 100 :D
+		Projeccio_Orto(-20, 20, -20, 20, 1, 100,w,h);
+		//Jhoan 9/10/20:He descomentado esta línea :D
+		Vista_Ortografica(3, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
+			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
+			eixos, grid, hgrid);
+
 		n[0] = 0;		n[1] = 0;		n[2] = 0;
 		Vista_Esferica(OPV, Vis_Polar, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, mida, pas,
 			front_faces, oculta, test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides, eixos, grid, hgrid);
+
+
 		// Dibuix de l'Objecte o l'Escena
 		glPushMatrix();
 		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
