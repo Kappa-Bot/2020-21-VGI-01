@@ -294,14 +294,24 @@ void Iluminacio(char ilumin, bool ifix, bool ilu2sides, bool ll_amb, LLUM* lumin
 
 // Projeccio_Orto: Definició Viewport i glOrtho 
 // ---- Entorn VGI: ATENCIÓ!!. CAL DEFINIR PARÀMETRES DE LA FUNCIÓ
-void Projeccio_Orto(double left, double right, double bottom, double top, double znear, double zfar)
+void Projeccio_Orto(double left, double right, double bottom, double top, double znear, double zfar,int w,int h)
 //(int minx, int miny, GLsizei w, GLsizei h, double zf)
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(left, right, bottom, top, znear, zfar);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	
+	//Jhoan(9/10/20):  se ha añadido una relación entre el aspect ratio i el viewport para evitar que los objetos se vean distorsionados al cambiar el tamaño de la pantalla.
+	glMatrixMode(GL_PROJECTION); // Activació de la matriu GL_PROJECTION
+	glLoadIdentity(); // Inicialització de GL_PROJECTION
+	float aspect_ratio = float(w) / float(h);
+	if (w >= h)
+	{
+		glOrtho(left * aspect_ratio, right * aspect_ratio, bottom, top, znear, zfar);
+
+	}
+	else glOrtho(left, right, bottom * (1 / aspect_ratio), top * (1 / aspect_ratio), znear, zfar);
+
+	// Matriu de projecció i Volum de Visualització
+	glMatrixMode(GL_MODELVIEW); // Activació de la matriu GL_MODELVIEW
+	glLoadIdentity(); // Inicialització de GL_MODELVIEW
 }
 
 // Vista_Ortogràfica: Ilumina i dibuixa l'escena. Crida a la funció gluLookAt segons la variable prj 

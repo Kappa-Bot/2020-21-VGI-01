@@ -784,7 +784,7 @@ void CEntornVGIView::OnPaint()
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(0, 0, w, h);
 		glViewport(0, 0, w, h);
-		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R);
+		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R,w,h);
 		//Vista_Ortografica(3, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 		//	test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 		//	eixos, grid, hgrid);
@@ -852,7 +852,8 @@ void CEntornVGIView::OnPaint()
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(0, 0, w / 2, h / 2);
 		glViewport(0, 0, w / 2, h / 2);
-		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R);
+		// Pregunta para Edgard: pq usas OPV.R?
+		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R,w,h);
 		Vista_Ortografica(0, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
@@ -867,7 +868,7 @@ void CEntornVGIView::OnPaint()
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(w / 2, 0, w / 2, h / 2);
 		glViewport(w / 2, 0, w / 2, h / 2);
-		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R);
+		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R,w,h);
 		Vista_Ortografica(3, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
@@ -882,7 +883,7 @@ void CEntornVGIView::OnPaint()
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(0, h / 2, w / 2, h / 2);
 		glViewport(0, h / 2, w / 2, h / 2);
-		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R);
+		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R,w,h);
 		Vista_Ortografica(1, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
@@ -897,7 +898,7 @@ void CEntornVGIView::OnPaint()
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(w / 2, h / 2, w / 2, h / 2);
 		glViewport(w / 2, h / 2, w / 2, h / 2);
-		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R);
+		Projeccio_Orto(-15, 15, -15, 15, -1, OPV.R,w,h);
 		Vista_Ortografica(2, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);

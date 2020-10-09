@@ -15,7 +15,7 @@
 void Iluminacio(char ilumin, bool ifix, bool ilu2sides, bool ll_amb, LLUM* lumin, char obj, bool frnt_fcs, bool bc_lin, int step);
 
 // Entorn VGI: Projecció Ortografica;
-void Projeccio_Orto(double left, double right, double bottom, double top, double znear, double zfar);
+void Projeccio_Orto(double left, double right, double bottom, double top, double znear, double zfar,int w,int h);
 void Vista_Ortografica(int prj,GLdouble Raux,CColor col_fons,CColor col_object,char objecte,GLdouble mida,int step,
 				bool frnt_fcs, bool oculta, bool testv, bool bck_ln, char iluminacio, bool llum_amb, LLUM* lumin, 
 				bool ifix, bool il2sides, bool eix, CMask3D reixa, CPunt3D hreixa);
