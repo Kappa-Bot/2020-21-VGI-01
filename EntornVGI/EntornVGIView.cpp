@@ -783,9 +783,10 @@ void CEntornVGIView::OnPaint()
 // ISOMÈTRICA (Superior Esquerra)
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(0, 0, w, h);
-		//glViewport(0, 0, w, h);
+		glViewport(0, 0, w, h);
 	    //Jhoan 9/10/20:he cambiado OPV.R por 100 :D
-		Projeccio_Orto(-20, 20, -20, 20, 1, 100,w,h);
+		//Jhoan 12/10/20:he cambiado los parámetros para obtener una vista parecida a la demo,en ocasiones al entrar a la vista el zoom hace q no se vea nada(toca hacer zoom out) en la demo,no hay zoom implementado.
+		Projeccio_Orto(-5.0, 5.0, -5.0, 5.0, 1.0, 20.0, w, h);
 		//Jhoan 9/10/20:He descomentado esta línea :D
 		Vista_Ortografica(3, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
