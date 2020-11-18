@@ -827,14 +827,14 @@ void CEntornVGIView::OnPaint()
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(0, 0, w / 2, h / 2);
 		glViewport(0, 0, w / 2, h / 2);
-		Projeccio_Orto(-5, 5, -5, 5, 1.0, 20.0, w, h);
+		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0, w, h);
 		Vista_Ortografica(0, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
 		// Dibuix de l'Objecte o l'Escena
 		glPushMatrix();
 			configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
-			// glScalef();			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
+			 glScalef(mida,mida,mida);			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
 			dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
 		glPopMatrix();
 		
@@ -842,14 +842,14 @@ void CEntornVGIView::OnPaint()
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(w / 2, 0, w / 2, h / 2);
 		glViewport(w / 2, 0, w / 2, h / 2);
-		Projeccio_Orto(-5, 5, -5, 5, 1.0, 20.0, w, h);
+		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0, w, h);
 		Vista_Ortografica(3, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
 		// Dibuix de l'Objecte o l'Escena
 		glPushMatrix();
 			configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
-			// glScalef();			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
+			glScalef(mida, mida, mida);		// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
 			dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
 		glPopMatrix();
 
@@ -857,14 +857,14 @@ void CEntornVGIView::OnPaint()
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(0, h / 2, w / 2, h / 2);
 		glViewport(0, h / 2, w / 2, h / 2);
-		Projeccio_Orto(-5, 5, -5, 5, 1.0, 20.0, w, h);
+		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0, w, h);
 		Vista_Ortografica(1, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
 		// Dibuix de l'Objecte o l'Escena
 		glPushMatrix();
 			configura_Escena();     // Aplicar Transformacions Geom?triques segons persiana Transformacio i configurar objectes
-			//glScalef();			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
+			glScalef(mida, mida, mida);			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
 			dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
 		glPopMatrix();
 
@@ -872,14 +872,14 @@ void CEntornVGIView::OnPaint()
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(w / 2, h / 2, w / 2, h / 2);
 		glViewport(w / 2, h / 2, w / 2, h / 2);
-		Projeccio_Orto(-5, 5, -5, 5, 1.0, 20.0, w, h);
+		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0, w, h);
 		Vista_Ortografica(2, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
 		// Dibuix de l'Objecte o l'Escena
 		glPushMatrix();
 			configura_Escena();     // Aplicar Transformacions Geom?triques segons persiana Transformacio i configurar objectes
- 			// glScalef();			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
+			glScalef(mida, mida, mida);			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
 			dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
 		glPopMatrix();
 
@@ -3112,6 +3112,23 @@ void CEntornVGIView::OnUpdateProjeccioAxonometrica(CCmdUI* pCmdUI)
 /*					5. OBJECTE					                             */
 /* ------------------------------------------------------------------------- */
 
+double CEntornVGIView::calculaMida(double rangx,double rangy,double rangz)
+{
+	double D = sqrt(rangx * rangx + rangy * rangy + rangz * rangz);
+	double d = 7 / 4 * sqrt(3);
+	mida = d / D;
+	return D;
+}
+
+void CEntornVGIView::CalculaR(double D)
+{
+	double r = 1.5*(D / 2);
+	GLdouble alfa = 60.0;	//valor alfa extret de gluPerspective(alfa,aspect,near,far)
+	alfa = alfa * pi / 180; //fem la conversió a radians per fer servir sin
+	OPV.R = r / sin(alfa / 2); //calculem la R= r/sin(alfa/2)
+
+
+}
 // OBJECTE: Cub
 void CEntornVGIView::OnObjecteCub()
 {
@@ -3119,10 +3136,12 @@ void CEntornVGIView::OnObjecteCub()
 
 	objecte = CUB;
 
-//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
+
 //	Canviar l'escala per a centrar la vista (Ortogràfica)
-
-
+	
+	double D=calculaMida(5.0, 5.0, 5.0);
+//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
+	CalculaR(D);
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
 }
@@ -3139,9 +3158,12 @@ void CEntornVGIView::OnObjecteEsfera()
 {
 // TODO: Agregue aquí su código de controlador de comandos
 	objecte = ESFERA;
+	//	Canviar l'escala per a centrar la vista (Ortogràfica)
+	double D = calculaMida(5.0, 5.0, 5.0);
 
 //  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
-//	Canviar l'escala per a centrar la vista (Ortogràfica)
+	CalculaR(D);
+
 
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -3160,8 +3182,11 @@ void CEntornVGIView::OnObjecteTetera()
 // TODO: Agregue aquí su código de controlador de comandos
 	objecte = TETERA;
 
-//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
+
 //	Canviar l'escala per a centrar la vista (Ortogràfica)
+	double D = calculaMida(5.0, 5.0, 5.0);
+	//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
+	CalculaR(D);
 
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -3219,8 +3244,17 @@ void CEntornVGIView::OnObjecteTruck()
 	texturesID[6] = loadIMA_ILUT("./textures/metall.bmp");
 	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);	// Desactivem contexte OpenGL
 
-//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
+
+	double rangx = 40.0;
+	double rangy = 150.0;
+	double rangz = 75.0;
+
 //	Canviar l'escala per a centrar la vista (Ortogràfica)
+	double D = calculaMida(rangx, rangy, rangz);
+//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
+	CalculaR(D);
+
+
 
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -3239,9 +3273,10 @@ void CEntornVGIView::OnObjecteTie()
 {
 // TODO: Agregue aquí su código de controlador de comandos
 	objecte = TIE;
-
-//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
-//	Canviar l'escala per a centrar la vista (Ortogràfica)
+	//	Canviar l'escala per a centrar la vista (Ortogràfica)
+	double D = calculaMida(60.0, 60.0, 60.0);
+	//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
+	CalculaR(D);
 
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);

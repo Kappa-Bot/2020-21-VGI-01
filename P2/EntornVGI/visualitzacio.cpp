@@ -325,24 +325,25 @@ void Vista_Ortografica(int prj,GLdouble Raux,CColor col_fons,CColor col_object,c
 
 	switch (prj) {
 		case 0: // PLANTA (Inferior Esquerra)
-			gluLookAt(0.0f, 15.0f, 0.0f, 
-					0.0f, -1.0f, 0.0f, 
+			gluLookAt(0.0f, 1.0f, 0.0f, 
+					0.0f, 0.0f, 0.0f, 
 					-1.0f, 0.0f, 0.0f);
 			break;
 		case 1: // ALÇAT (Superior Esquerra)
-			gluLookAt(15.0f, 0.0f, 0.0f, 
-					-1.0f, 0.0f, 0.0f, 
+			gluLookAt(1.0f, 0.0f, 0.0f, 
+					0.0f, 0.0f, 0.0f, 
 					0.0f, 1.0f, 0.0f);
 			break;
 		case 2: //PERFIL (Superior Dreta)
-			gluLookAt(0.0f, 0.0f, 15.0f,
-				0.0f, 0.0f, -1.0f,
+			gluLookAt(0.0f, 0.0f, 1.0f,
+				0.0f, 0.0f, 0.0f,
 				0.0f, 1.0f, 0.0f);
 			break;	
 		case 3: // ISOMÈTRICA (Inferior Dreta | Superior Esquerra)
-			gluLookAt(8.33f * sqrtf(1.0f / 3.0f), 8.33f * sqrtf(1.0f / 3.0f), 8.33f * sqrt(1.0f / 3.0f),
+		
+			gluLookAt(0.001,0.001,0.001,
 				0.0f, 0.0f, 0.0f,
-				0.0f, 0.0f, 1.0f);
+				0.0f, 1.0f, 0.0f);
 			break;
 		case 4: // DIMÈTRICA (Superior Dreta)
 			gluLookAt(8.33f * sqrtf(1.0f / 3.0f), 8.33f * sqrtf(1.0f / 3.0f), 8.33f * sqrt(1.0f / 3.0f),

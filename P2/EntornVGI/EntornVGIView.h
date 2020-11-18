@@ -278,7 +278,10 @@ public:
 	afx_msg void OnUpdateVistaEixos(CCmdUI *pCmdUI);
 	afx_msg void OnProjeccioPerspectiva();
 	afx_msg void OnUpdateProjeccioPerspectiva(CCmdUI *pCmdUI);
-	afx_msg void OnObjecteCub();
+	afx_msg
+		double calculaMida(double rangx, double rangy, double rangz);
+	void CalculaR(double D);
+	void OnObjecteCub();
 	afx_msg void OnUpdateObjecteCub(CCmdUI *pCmdUI);
 	afx_msg void OnObjecteEsfera();
 	afx_msg void OnUpdateObjecteEsfera(CCmdUI *pCmdUI);
