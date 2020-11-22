@@ -278,10 +278,9 @@ public:
 	afx_msg void OnUpdateVistaEixos(CCmdUI *pCmdUI);
 	afx_msg void OnProjeccioPerspectiva();
 	afx_msg void OnUpdateProjeccioPerspectiva(CCmdUI *pCmdUI);
-	afx_msg
-		double calculaMida(double rangx, double rangy, double rangz);
-	void CalculaR(double D);
-	void OnObjecteCub();
+	afx_msg void calculaMida(double D);
+	afx_msg void CalculaR(double D);
+	afx_msg void OnObjecteCub();
 	afx_msg void OnUpdateObjecteCub(CCmdUI *pCmdUI);
 	afx_msg void OnObjecteEsfera();
 	afx_msg void OnUpdateObjecteEsfera(CCmdUI *pCmdUI);
@@ -394,6 +393,14 @@ public:
 	afx_msg void OnUpdateProjeccioOrtografica(CCmdUI* pCmdUI);
 	afx_msg void OnProjeccioAxonometrica();
 	afx_msg void OnUpdateProjeccioAxonometrica(CCmdUI* pCmdUI);
+	afx_msg void OnObjecteOctopus();
+	afx_msg void OnUpdateObjecteOctopus(CCmdUI* pCmdUI);
+	afx_msg void OnTexturaBricks();
+	afx_msg void OnUpdateTexturaBricks(CCmdUI* pCmdUI);
+	afx_msg void OnTexturaMapamundoi();
+	afx_msg void OnUpdateTexturaMapamundoi(CCmdUI* pCmdUI);
+	afx_msg void OnTexturaSac();
+	afx_msg void OnUpdateTexturaSac(CCmdUI* pCmdUI);
 };
 
 #ifndef _DEBUG  // Versión de depuración en EntornVGIView.cpp

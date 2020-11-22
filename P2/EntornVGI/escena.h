@@ -17,6 +17,10 @@ void dibuixa_EscenaGL(char objecte, CColor col_object, bool ref_mat, bool sw_mat
 // Entorn VGI: dibuixa -> Funció que dibuixa objectes simples de la llibreria GLUT segons obj
 void dibuixa(char obj);
 
+// Entorn VGI: Objecte octo()
+void octo();
+void potaOcto(float r, float g, float b);
+
 // Entorn VGI: Objecte arc()
 void arc(bool ref_mat, bool sw_mat[4]);
 

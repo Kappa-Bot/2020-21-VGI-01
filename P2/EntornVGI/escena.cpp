@@ -38,7 +38,7 @@ void dibuixa_EscenaGL(char objecte, CColor col_object, bool ref_mat, bool sw_mat
 
 	switch (objecte)
 	{
-// Arc
+		// Arc
 	case ARC:
 		SeleccionaColor(ref_mat, sw_mat, col_object);
 		arc(ref_mat, sw_mat);
@@ -48,12 +48,12 @@ void dibuixa_EscenaGL(char objecte, CColor col_object, bool ref_mat, bool sw_mat
 		sea();
 		break;
 
-// Dibuix de l'objecte TIE (Nau enemiga Star Wars)
+		// Dibuix de l'objecte TIE (Nau enemiga Star Wars)
 	case TIE:
 		tie();
 		break;
 
-// Dibuix del Truck
+		// Dibuix del Truck
 	case TRUCK:
 		glDisable(GL_TEXTURE_2D);
 		truck(textur, texturID);
@@ -62,6 +62,15 @@ void dibuixa_EscenaGL(char objecte, CColor col_object, bool ref_mat, bool sw_mat
 		SeleccionaColor(ref_mat, sw_mat, color_Mar);
 		sea();
 		break;
+
+
+		// Dibuix de l'Octopus
+	case OCTO:
+		glDisable(GL_TEXTURE_2D);
+		octo();
+		break;
+
+
 
 // Dibuix de l'objecte 3DS
 	case OBJ3DS:
@@ -341,7 +350,65 @@ void dibuixa(char obj)
 	}
 }
 
+// OBJECTE OCTOPUS
+// (20.0f + 3.0f) * 2		X	=	23.0f
+// (20.0f + 4.5f) * 2		Y	=	24.5f
+// 1.0f + 2.0f + 10.0f		Z	=	13.0f
+float octoR[8] = { 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.5f };
+float octoG[8] = { 0.0f, 0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f };
+float octoB[8] = { 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+void octo() {
+	glPushMatrix();
+		glutSolidCylinder(3.0f, 1.0f, 20.0f, 20.0f); // Base
+		glPushMatrix();
+			glTranslatef(0.0f, 0.0f, 1.0f);
+			glutSolidCylinder(1.0f, 2.0f, 20.0f, 20.0f); // Cama
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0.0f, 0.0f, 8.0f);
+			glutSolidSphere(5.0f, 20.0f, 20.0f); // Esfera
+		glPopMatrix();
+		glPushMatrix();
+			for (int i = 0; i < 8; i++) {
+				potaOcto(octoR[i], octoG[i], octoB[i]);
+				glRotatef(45.0, 0, 0, 1); // delta=45
+			}
+		glPopMatrix();
+	glPopMatrix();
+}
 
+void potaOcto(float r, float g, float b) {
+	glPushMatrix();
+		glTranslatef(0.0f, 0.0f, 8.0f);
+		glPushMatrix();
+			glColor3f(r, g, b);
+			glPushMatrix();
+				glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+				glutSolidCylinder(0.75f, 20.0f, 20.0f, 20.0f); // Braç
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(0.0f, 20.0f, 0.0f);
+				glScalef(1.5f, 1.0f, 1.0f);
+				glutSolidSphere(3.0f, 20.0f, 20.0f); // Cos
+			glPopMatrix();
+		glPopMatrix();
+
+		glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glPushMatrix();
+				glColor4f(0.0f, 1.0f, 1.0f, 0.5f);
+				glTranslatef(0.0f, 20.0f, 3.0f);
+				glScalef(2.0f, 1.5f, 1.0f);
+				glutSolidSphere(1.0f, 20.0f, 20.0f); // Cabina
+			glPopMatrix();
+		glDisable(GL_BLEND);
+	glPopMatrix();
+}
+
+
+// X = 1
+// Y = 7.5
+// Z = 7
 // OBJECTE ARC
 void arc(bool ref_mat, bool sw_mat[4])
 {	CColor col_object;

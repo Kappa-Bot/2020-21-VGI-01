@@ -47,6 +47,7 @@
 #define VAIXELL 'v'
 #define OBJ3DS '3'		// Objecte format 3DS
 #define OBJOBJ '4'		// Objecte format OBJ
+#define OCTO 'p'
 
 //-------------- VGI: Tipus d'Iluminacio
 #define PUNTS 'P'
@@ -85,6 +86,9 @@ const double p_far=50000.0;
 #define FITXER 'f'
 #define FITXERBMP 'f'
 #define FITXERIMA 'I'
+#define TEXTURA_BRICKS 'b'
+#define TEXTURA_MAPAMUNDI 'm'
+#define TEXTURA_SAC 's'
 
 // --------------  VGI: NOMBRE DE LLUMS: Nombre de Llums de l'aplicació, les d'OpenGL
 const int NUM_MAX_LLUMS = 8;

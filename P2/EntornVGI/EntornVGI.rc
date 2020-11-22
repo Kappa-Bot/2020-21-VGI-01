@@ -354,6 +354,7 @@ BEGIN
         MENUITEM "Texte STROKE",                32863, CHECKED
         MENUITEM "Tie",                         ID_OBJECTE_TIE, CHECKED
         MENUITEM "Truck",                       32790, CHECKED
+        MENUITEM "Octopus",                     ID_OBJECTE_OCTOPUS, CHECKED
     END
     POPUP "Transforma"
     BEGIN
@@ -402,6 +403,9 @@ BEGIN
         POPUP "Textura"
         BEGIN
             MENUITEM "FItxer Imatge",               ID_ILUMINACIO_TEXTURA_FITXERIMATGE, CHECKED
+            MENUITEM "Bricks",                      ID_TEXTURA_BRICKS
+            MENUITEM "Mapa Mundi",                  ID_TEXTURA_MAPAMUNDOI
+            MENUITEM "Sac",                         ID_TEXTURA_SAC
         END
     END
     POPUP "Llums"

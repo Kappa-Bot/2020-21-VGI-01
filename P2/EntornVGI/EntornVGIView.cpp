@@ -199,6 +199,14 @@ BEGIN_MESSAGE_MAP(CEntornVGIView, CView)
 		ON_UPDATE_COMMAND_UI(ID_PROJECCIO_ORTOGRAFICA, &CEntornVGIView::OnUpdateProjeccioOrtografica)
 		ON_COMMAND(ID_PROJECCIO_AXONOMETRICA, &CEntornVGIView::OnProjeccioAxonometrica)
 		ON_UPDATE_COMMAND_UI(ID_PROJECCIO_AXONOMETRICA, &CEntornVGIView::OnUpdateProjeccioAxonometrica)
+		ON_COMMAND(ID_OBJECTE_OCTOPUS, &CEntornVGIView::OnObjecteOctopus)
+		ON_UPDATE_COMMAND_UI(ID_OBJECTE_OCTOPUS, &CEntornVGIView::OnUpdateObjecteOctopus)
+		ON_COMMAND(ID_TEXTURA_BRICKS, &CEntornVGIView::OnTexturaBricks)
+		ON_UPDATE_COMMAND_UI(ID_TEXTURA_BRICKS, &CEntornVGIView::OnUpdateTexturaBricks)
+		ON_COMMAND(ID_TEXTURA_MAPAMUNDOI, &CEntornVGIView::OnTexturaMapamundoi)
+		ON_UPDATE_COMMAND_UI(ID_TEXTURA_MAPAMUNDOI, &CEntornVGIView::OnUpdateTexturaMapamundoi)
+		ON_COMMAND(ID_TEXTURA_SAC, &CEntornVGIView::OnTexturaSac)
+		ON_UPDATE_COMMAND_UI(ID_TEXTURA_SAC, &CEntornVGIView::OnUpdateTexturaSac)
 		END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -778,27 +786,33 @@ void CEntornVGIView::OnPaint()
 
 // Aquí farem les crides per a definir Viewport, Projecció i Càmara: INICI -------------------------
 
-// TODO: Cam Esférica, altres projeccions axonomètriques????????????????????????????????????????????
-
-// ISOMÈTRICA (Superior Esquerra)
+// AXONOMÈTRICA (Superior Esquerra)
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(0, 0, w, h);
 		glViewport(0, 0, w, h);
 	    //Jhoan 9/10/20:he cambiado OPV.R por 100 :D
 		//Jhoan 12/10/20:he cambiado los parámetros para obtener una vista parecida a la demo,en ocasiones al entrar a la vista el zoom hace q no se vea nada(toca hacer zoom out) en la demo,no hay zoom implementado.
-		Projeccio_Orto(-15, 15, -15, 15, 1.0, 50.0, w, h);
+		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 100.0, w, h);
 		//Jhoan 9/10/20:He descomentado esta línea :D
 		//Edgard 21/20/20: Eres tontísimo
-
-		n[0] = 0;		n[1] = 0;		n[2] = 0;
-		Vista_Esferica(OPV, Vis_Polar, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, mida, pas,
-			front_faces, oculta, test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides, eixos, grid, hgrid);
+		//Edgard 20/11/20: La he subido a 200 bc-y-not
+		if (navega) {
+			Vista_Navega(opvN, false, n, vpv, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, true, pas,
+				front_faces, oculta, test_vis, back_line,
+				ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
+				eixos, grid, hgrid);
+		}
+		else {
+			n[0] = 0;		n[1] = 0;		n[2] = 0;
+			Vista_Esferica(OPV, Vis_Polar, pan, tr_cpv, tr_cpvF, c_fons, col_obj, objecte, mida, pas,
+				front_faces, oculta, test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides, eixos, grid, hgrid);
+		}
 
 		// Dibuix de l'Objecte o l'Escena	
 		glPushMatrix();
-		configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
-		// glScalef();			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
-		dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
+			configura_Escena();     // Aplicar Transformacions Geometriques segons persiana Transformacio i configurar objectes
+			 glScalef(mida, mida, mida);			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
+			dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
 		glPopMatrix();
 
 // Intercanvia l'escena al front de la pantalla
@@ -827,7 +841,7 @@ void CEntornVGIView::OnPaint()
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(0, 0, w / 2, h / 2);
 		glViewport(0, 0, w / 2, h / 2);
-		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0, w, h);
+		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 100.0, w, h);
 		Vista_Ortografica(0, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
@@ -837,12 +851,12 @@ void CEntornVGIView::OnPaint()
 			 glScalef(mida,mida,mida);			// Escalat d'objectes, per adequar-los a les vistes ortogràfiques (Pràctica 2)
 			dibuixa_Escena();		// Dibuix geometria de l'escena amb comandes GL.
 		glPopMatrix();
-		
+
 // ISOMÈTRICA (Inferior Dreta)
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(w / 2, 0, w / 2, h / 2);
 		glViewport(w / 2, 0, w / 2, h / 2);
-		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0, w, h);
+		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 100.0, w, h);
 		Vista_Ortografica(3, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
@@ -857,7 +871,7 @@ void CEntornVGIView::OnPaint()
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(0, h / 2, w / 2, h / 2);
 		glViewport(0, h / 2, w / 2, h / 2);
-		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0, w, h);
+		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 100.0, w, h);
 		Vista_Ortografica(1, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
@@ -872,7 +886,7 @@ void CEntornVGIView::OnPaint()
 		// Definició de Viewport, Projecció i Càmara
 		glScissor(w / 2, h / 2, w / 2, h / 2);
 		glViewport(w / 2, h / 2, w / 2, h / 2);
-		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0, w, h);
+		Projeccio_Orto(-1.0, 1.0, -1.0, 1.0, -1.0, 100.0, w, h);
 		Vista_Ortografica(2, OPV.R, c_fons, col_obj, objecte, mida, pas, front_faces, oculta,
 			test_vis, back_line, ilumina, llum_ambient, llumGL, ifixe, ilum2sides,
 			eixos, grid, hgrid);
@@ -3095,7 +3109,7 @@ void CEntornVGIView::OnProjeccioAxonometrica()
 	projeccio = AXONOM;
 	eixos = true;
 	mobil = true;
-	zzoom = true;
+	zzoom = false;
 
 	// Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -3108,38 +3122,60 @@ void CEntornVGIView::OnUpdateProjeccioAxonometrica(CCmdUI* pCmdUI)
 	else pCmdUI->SetCheck(0);
 }
 
+
+
+
+
 /* ------------------------------------------------------------------------- */
 /*					5. OBJECTE					                             */
 /* ------------------------------------------------------------------------- */
-
-double CEntornVGIView::calculaMida(double rangx,double rangy,double rangz)
+void CEntornVGIView::calculaMida(double D)
 {
-	double D = sqrt(rangx * rangx + rangy * rangy + rangz * rangz);
-	double d = 7 / 4 * sqrt(3);
-	mida = d / D;
-	return D;
+	double d = (7 / 4) * sqrt(3.0);
+	mida = (d / D);
 }
 
 void CEntornVGIView::CalculaR(double D)
 {
-	double r = 1.5*(D / 2);
+	GLdouble r = 1.0 * (D / 2.0);
 	GLdouble alfa = 60.0;	//valor alfa extret de gluPerspective(alfa,aspect,near,far)
-	alfa = alfa * pi / 180; //fem la conversió a radians per fer servir sin
-	OPV.R = r / sin(alfa / 2); //calculem la R= r/sin(alfa/2)
-
-
+	alfa = alfa * pi / 180.0; //fem la conversió a radians per fer servir sin
+	OPV.R = r / sin(alfa / 2.0); //calculem la R= r/sin(alfa/2)
 }
+
+void CEntornVGIView::OnObjecteOctopus()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	objecte = OCTO;
+	//	Canviar l'escala per a centrar la vista (Ortogràfica)
+
+	double D = 46.0; // Esfera de radi 23 (Braç 20 + Cos 3)
+	calculaMida(D); // 46 46 13
+	//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
+	CalculaR(D);
+	// Crida a OnPaint() per redibuixar l'escena
+	InvalidateRect(NULL, false);
+}
+
+
+void CEntornVGIView::OnUpdateObjecteOctopus(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (objecte == OCTO) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+}
+
+
 // OBJECTE: Cub
 void CEntornVGIView::OnObjecteCub()
 {
 // TODO: Agregue aquí su código de controlador de comandos
 
 	objecte = CUB;
+//	Canviar l'escala per a centrar la vista (Ortogràfica)	
+	double D = sqrt(5.0 * 5.0 + 5.0 * 5.0 + 5.0 * 5.0);
+	calculaMida(D);
 
-
-//	Canviar l'escala per a centrar la vista (Ortogràfica)
-	
-	double D=calculaMida(5.0, 5.0, 5.0);
 //  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
 	CalculaR(D);
 // Crida a OnPaint() per redibuixar l'escena
@@ -3159,11 +3195,13 @@ void CEntornVGIView::OnObjecteEsfera()
 // TODO: Agregue aquí su código de controlador de comandos
 	objecte = ESFERA;
 	//	Canviar l'escala per a centrar la vista (Ortogràfica)
-	double D = calculaMida(5.0, 5.0, 5.0);
+	// El volum de visualització és un cub
+	double D = sqrt(5.0 * 5.0 + 5.0 * 5.0 + 5.0 * 5.0);
+	calculaMida(D);
 
 //  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
+	D = 10.0; // Encabir una esfera de costat 10
 	CalculaR(D);
-
 
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -3184,7 +3222,8 @@ void CEntornVGIView::OnObjecteTetera()
 
 
 //	Canviar l'escala per a centrar la vista (Ortogràfica)
-	double D = calculaMida(5.0, 5.0, 5.0);
+	double D = 5.0 * 2.0;
+	calculaMida(D);
 	//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
 	CalculaR(D);
 
@@ -3207,8 +3246,10 @@ void CEntornVGIView::OnObjecteArc()
 // TODO: Agregue aquí su código de controlador de comandos
 	objecte = ARC;
 
+///	Canviar l'escala per a centrar la vista (Ortogràfica)
+	//double D = calculaMida(10.0, 10.0, 10.0); // 1.0, 7.5, 10.0
 //  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
-//	Canviar l'escala per a centrar la vista (Ortogràfica)
+	//CalculaR(D);
 
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -3250,9 +3291,9 @@ void CEntornVGIView::OnObjecteTruck()
 	double rangz = 75.0;
 
 //	Canviar l'escala per a centrar la vista (Ortogràfica)
-	double D = calculaMida(rangx, rangy, rangz);
+	//double D = calculaMida(rangx, rangy, rangz);
 //  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
-	CalculaR(D);
+	//CalculaR(D);
 
 
 
@@ -3274,9 +3315,9 @@ void CEntornVGIView::OnObjecteTie()
 // TODO: Agregue aquí su código de controlador de comandos
 	objecte = TIE;
 	//	Canviar l'escala per a centrar la vista (Ortogràfica)
-	double D = calculaMida(60.0, 60.0, 60.0);
+	//double D = calculaMida(55.5, 55.5, 55.5);
 	//  Modificar R per centrar la Vista a la mida de l'objecte (Perspectiva)
-	CalculaR(D);
+	//CalculaR(55.5);
 
 // Crida a OnPaint() per redibuixar l'escena
 	InvalidateRect(NULL, false);
@@ -3997,6 +4038,76 @@ void CEntornVGIView::OnUpdateIluminacioTextures(CCmdUI *pCmdUI)
 // TEXTURA Fusta
 // TEXTURA Marbre
 // TEXTURA Metall
+
+
+void CEntornVGIView::OnTexturaBricks()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	t_textura = TEXTURA_BRICKS;
+
+	// Entorn VGI: Activació el contexte OpenGL
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
+	texturesID[0] = loadIMA_SOIL("./textures/brick.jpg");
+	//    Pas de textura al shader
+	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_program, "texture0"), GLint(0));
+	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	InvalidateRect(NULL, false);
+}
+
+
+void CEntornVGIView::OnUpdateTexturaBricks(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (t_textura == TEXTURA_BRICKS) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+}
+
+
+void CEntornVGIView::OnTexturaMapamundoi()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	t_textura = TEXTURA_MAPAMUNDI;
+
+	// Entorn VGI: Activació el contexte OpenGL
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
+	texturesID[0] = loadIMA_SOIL("./textures/world-political-map-with-countries.jpg");
+	//    Pas de textura al shader
+	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_program, "texture0"), GLint(0));
+	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	InvalidateRect(NULL, false);
+}
+
+
+void CEntornVGIView::OnUpdateTexturaMapamundoi(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (t_textura == TEXTURA_MAPAMUNDI) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+}
+
+
+void CEntornVGIView::OnTexturaSac()
+{
+	// TODO: Agregue aquí su código de controlador de comandos
+	t_textura = TEXTURA_SAC;
+
+	// Entorn VGI: Activació el contexte OpenGL
+	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hRC);
+	texturesID[0] = loadIMA_SOIL("./textures/sac.jpg");
+	//    Pas de textura al shader
+	if (shader_menu != CAP_SHADER) glUniform1i(glGetUniformLocation(shader_program, "texture0"), GLint(0));
+	wglMakeCurrent(m_pDC->GetSafeHdc(), NULL);
+	InvalidateRect(NULL, false);
+}
+
+
+void CEntornVGIView::OnUpdateTexturaSac(CCmdUI* pCmdUI)
+{
+	// TODO: Agregue aquí su código de controlador de IU para actualización de comandos
+	if (t_textura == TEXTURA_SAC) pCmdUI->SetCheck(1);
+	else pCmdUI->SetCheck(0);
+}
+
 
 
 void CEntornVGIView::OnIluminacioTexturaFitxerimatge()
