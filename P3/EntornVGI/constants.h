@@ -111,6 +111,7 @@ const int NUM_MAX_LLUMS = 8;
 const double pi=3.14159;
 const double TWOPI = 2 * pi;
 const double PID2 = pi / 2;
+const int NFRAMES = 60;
 //const double pi=3.14159265358979323846264338327950288419716939937510f;
 
 // --------------- GMS. GRID
@@ -199,11 +200,6 @@ struct LLUM
 	GLfloat exponent;		// Exponent que indica l'atenuació de la font del centre de l'eix a l'exterior, segons model de Warn.
 };
 
-struct angles_R {
-	GLfloat Gz = 0.0; GLfloat Gx = 0.0;
-	GLfloat Rz = 0.0; GLfloat Rx = 0.0; GLfloat Ry = 0.0;
-	GLfloat Qx = 0.0;
-};
 
 
 #endif

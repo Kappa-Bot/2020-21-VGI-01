@@ -39,6 +39,14 @@ public:
 
 	vector<GLfloat> anglesRobot;
 
+	bool rota_objecte = false;
+	bool modo_robot = true;
+	bool inserted = false;
+	GLfloat pos_RI[6] = { 0.0,0.0,0.0,0.0,0.0,0.0 };
+	GLfloat pos_RF[6] = { 0.0,0.0,0.0,0.0,0.0,0.0 };
+	int x = 0;
+	bool up = true;
+
 //-------------- Entorn VGI: Variables globals de CPractivaView
 	HGLRC	 m_hrc;		// OpenGL Rendering Context 
 
@@ -221,6 +229,9 @@ public:
 	void CEntornVGIView::Teclat_TransRota(UINT nChar, UINT nRepCnt);
 	void CEntornVGIView::Teclat_TransTraslada(UINT nChar, UINT nRepCnt);
 	void CEntornVGIView::Teclat_Grid(UINT nChar, UINT nRepCnt);
+
+	void CEntornVGIView::Teclat_RotaRobot(UINT nChar, UINT nRepCnt);
+
 
 	CMFCStatusBar& GetStatusBar() const
 	{

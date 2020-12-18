@@ -385,7 +385,7 @@ void robot(std::vector<GLfloat> anglesRobot) {
 			// Pivot rotació braç
 			glTranslatef(0.0, 0.0, 15.0);
 			glRotatef(Gz, 0.0, 0.0, 1.0);	// Rota Braç
-			glRotatef(Gx, 1.0, 0.0, 1.0);	// Rota Braç
+			glRotatef(Gx, -1.0, 0.0, 0.0);	// Rota Braç
 
 			// Colze
 			glPushMatrix();
